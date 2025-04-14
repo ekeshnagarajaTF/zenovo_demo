@@ -1,0 +1,92 @@
+{
+    "load_pdf_in_sds": {
+        
+        "Emulator_starting_command" : "start",
+       
+        "screen1" :{
+ 
+          "title" : "HEALTH COST SOLUTIONS screen",
+          "step"  : "- Select HEALTHpac 4.0 Production.",
+          "condition" : "No conditions for check"
+        },
+ 
+        "screen2" :{
+            "title" : "login screen",
+            "step"  :  "- login with username abc and password pass.",
+            "condition" : "No conditions for check"
+          },
+ 
+        "screen3" :{
+ 
+            "title" : "ACCESS WORKFLOW screen",
+            "step"  :  "- Select the ACCESS WORKFLOW option.",
+            "condition" : "No conditions for check"
+        },
+ 
+        "screen4" :{
+ 
+            "title" : "queue screen",
+            "step"  :  "- Select option for 'CCH-790136' queue.",
+            "condition" : "No conditions for check"
+        },  
+ 
+        "screen5" :{
+ 
+            "title" : "claim list screen",
+            "step"  :  "- Select Option for last occurrence of 'PV NPR' in pending list on screen.",
+            "condition" : "No conditions for check"
+        },
+       
+        "screen6" :{
+ 
+            "title" : "claim detail screen",
+            "step"  :  "Display the provider info.",
+            "condition" : "Check if Received year is 2025"
+        }
+    } ,
+    "compare_claim_with_pdf": {
+
+        "Emulator_starting_command" : "start",
+       
+        "screen1" :{
+ 
+          "title" : "HEALTH COST SOLUTIONS screen",
+          "step"  : "- Select HEALTHpac 4.0 Production.",
+          "condition" : "No conditions for check"
+        },
+ 
+        "screen2" :{
+            "title" : "login screen",
+            "step"  :  "- login with username abc and password pass.",
+            "condition" : "No conditions for check"
+          },
+ 
+        "screen3" :{
+ 
+            "title" : "ACCESS WORKFLOW screen",
+            "step"  :  "- Select the ACCESS WORKFLOW option.",
+            "condition" : "No conditions for check"
+        },
+ 
+        "screen4" :{
+ 
+            "title" : "queue screen",
+            "step"  :  "- Select option for 'CCH-790136' queue.",
+            "condition" : "No conditions for check"
+        },  
+ 
+        "screen5" :{
+ 
+            "title" : "claim list screen",
+            "step"  :  "- Select Option for last occurrence of 'PV NPR' in pending list on screen.",
+            "condition" : "No conditions for check"
+        },
+       
+        "screen6" :{
+ 
+            "title" : "claim detail screen",
+            "step"  :  "Display the provider info.",
+            "condition" : "Check if Received year is 2025"
+        }
+    }
+}

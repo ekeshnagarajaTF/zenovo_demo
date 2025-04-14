@@ -1,0 +1,5 @@
+   Given the condition analysis in json data - {conditions_analysis},
+                                             Check if any condition is not met.
+                                             If no conditions to check in the json data return "Ok".
+                                             If any one of the conditions is also not met, return only "Conditions not met", else return only "Ok".
+                                             Dont return extra sumamry or analysis.
