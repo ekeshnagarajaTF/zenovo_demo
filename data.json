@@ -1,25 +1,23 @@
 {
     "load_pdf_in_sds": {
         
-        "Emulator_starting_command" : "start",
-       
         "screen1" :{
+            "title" : "strat screen",
+            "step" : "start the emulator",
+            "condition" : "No conditions for check"
+        },
+       
+        "screen2" :{
  
           "title" : "HEALTH COST SOLUTIONS screen",
           "step"  : "- Select HEALTHpac 4.0 Production.",
           "condition" : "No conditions for check"
         },
- 
-        "screen2" :{
-            "title" : "login screen",
-            "step"  :  "- login with username abc and password pass.",
-            "condition" : "No conditions for check"
-          },
- 
+  
         "screen3" :{
  
             "title" : "ACCESS WORKFLOW screen",
-            "step"  :  "- Select the ACCESS WORKFLOW option.",
+            "step"  :  "- Select the ACCESS WORKFLOW QUEUE option.",
             "condition" : "No conditions for check"
         },
  
@@ -33,60 +31,60 @@
         "screen5" :{
  
             "title" : "claim list screen",
-            "step"  :  "- Select Option for last occurrence of 'PV NPR' in pending list on screen.",
+            "step"  :  "- Select Option for first occurrence of 'EMM' in pending list on screen.",
             "condition" : "No conditions for check"
         },
        
         "screen6" :{
  
             "title" : "claim detail screen",
-            "step"  :  "Display the provider info.",
-            "condition" : "Check if Received year is 2025"
-        }
+            "step"  :  "Select the 'View' option",
+            "condition" : "No conditions for check"
+        },
+        "screen7" :{
+            "title" : "view screen",
+            "step"  :  "Select the claims Images option",
+            "condition" : "No conditions for check"
+        },
+        "screen8" :{
+            "title" : "Images screen",
+            "step"  :  "Select First Image Option",
+            "condition" : "No conditions for check"
+        } 
     } ,
     "compare_claim_with_pdf": {
-
-        "Emulator_starting_command" : "start",
        
         "screen1" :{
  
-          "title" : "HEALTH COST SOLUTIONS screen",
-          "step"  : "- Select HEALTHpac 4.0 Production.",
-          "condition" : "No conditions for check"
+            "title" : "ACCESS WORKFLOW screen",
+            "step"  :  "- Select the CLAIMS/ELIGIBILITY option.",
+            "condition" : "No conditions for check"
         },
  
         "screen2" :{
-            "title" : "login screen",
-            "step"  :  "- login with username abc and password pass.",
-            "condition" : "No conditions for check"
-          },
  
-        "screen3" :{
- 
-            "title" : "ACCESS WORKFLOW screen",
-            "step"  :  "- Select the ACCESS WORKFLOW option.",
-            "condition" : "No conditions for check"
-        },
- 
-        "screen4" :{
- 
-            "title" : "queue screen",
-            "step"  :  "- Select option for 'CCH-790136' queue.",
+            "title" : "PATIENT SEARCH SELECTION screen",
+            "step"  :  "- Enter the user details",
             "condition" : "No conditions for check"
         },  
  
-        "screen5" :{
+        "screen3" :{
  
-            "title" : "claim list screen",
-            "step"  :  "- Select Option for last occurrence of 'PV NPR' in pending list on screen.",
+            "title" : "PATIENT SEARCH SELECTION screen",
+            "step"  :  "- Click F3 key",
             "condition" : "No conditions for check"
         },
        
-        "screen6" :{
+        "screen4" :{
  
-            "title" : "claim detail screen",
-            "step"  :  "Display the provider info.",
-            "condition" : "Check if Received year is 2025"
+            "title" : "HCS CORRECTIONAL MGMT WELLPATH screen",
+            "step"  :  "- Click F3 key",
+            "condition" : "No conditions for check"
+        },
+        "screen5" :{
+            "title" : "HCS CORRECTIONAL MGMT WELLPATH screen",
+            "step"  :  "- Compare the claim data with the pdf data",
+            "condition" : "No conditions for check"
         }
     }
 }

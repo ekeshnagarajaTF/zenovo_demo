@@ -3,16 +3,17 @@ import os
 import sys
 import asyncio
 import requests
+from compare import compare_data
 from emulator_client.emulator_cient import EmulatorClient
 import yaml
 from prompt_load import load_prompts
 from comprehend_agent import ComprehendAgent
 from dotenv import load_dotenv
 from langchain_community.chat_models import ChatOpenAI
-load_dotenv()
+import compare
 from navigation_screen_set import navigation_set
 import ast
-
+load_dotenv()
 class ZenovoBot(BaseBot):
     
     def __init__(self, options=None):
@@ -43,16 +44,15 @@ class ZenovoBot(BaseBot):
         
     async def generate_response(self, message):
         print("hey this is the message", message)
-
+        self.emulator_client.port = "5001"
         navigation_name = "load_pdf_in_sds"
-        # Only call start_navigation once and return its result
-        self.start_navigation(navigation_name, message)
 
-        navigation_name = "compare_claim_with_pdf"
-        self.start_navigation(navigation_name, message)
-
-
-        
+        reponse = self.start_navigation(navigation_name, message)
+        # self.emulator_client.port = "5003"
+        # navigation_name = "compare_claim_with_pdf"
+        # reponse = self.start_navigation(navigation_name, message)
+        return reponse
+     
     def send_request(self, key):
         response = self.emulator_client.process_command(key)
         return response
@@ -60,50 +60,48 @@ class ZenovoBot(BaseBot):
     def start_navigation(self, navigation_name, message):
         navigation_data = navigation_set()
         navigation_info = navigation_data.get_navigation(navigation_name)  
-        start_command = "start"
         self.send_message(message, "starting the process")
-        screens = self.send_request(start_command)
+        screens = self.emulator_client.get_current_screen()
         self.execute_step(navigation_info, screens, message)
         return "Navigation process completed"  # Return a value to indicate completion
     
     def execute_step(self, navigation_info, screens, message):
         agent = ComprehendAgent()  
         size = len(navigation_info)
-        for i in range(1, size):            
+        for i in range(1, size+1):            
             key = f"screen{i}"
             condition = navigation_info.get(key).get("condition")
             step = navigation_info.get(key).get("step")
             title = navigation_info.get(key).get("title")
-            
-            self.send_message(message, f"⏳ <strong>Processing screen: '{title}' | 📝Task:</strong> {step}  | <strong> ⚡ Conditions to be satisfied for processing screen:</strong> {condition}")
-            if("compare screens"  in step.lower()):
+            self.send_message(message, f"⏳ Processing screen: '{title}' | 📝Task: {step}  |  ⚡ Conditions to be satisfied for processing screen: {condition}")
+            if("compare"  in step.lower()):
                 response = self.compare_data(screens)
-                self.send_message(message, f"✅ <strong>Comparison result:</strong> {response}")
+                self.send_message(message, f"✅ Comparison result: {response}")
             else:
                 actionstr = agent.analyze_process_step(condition, step, screens)
                 try:
                     actions = ast.literal_eval(actionstr.strip())
                     if actions[0] == "Screen is not suitable for the operation":
-                        self.send_message(message, f"⚠️ <strong>Screen is not suitable for the operation:</strong> {step}")
+                        self.send_message(message, f"⚠️ Screen is not suitable for the operation: {step}")
                         return "exited"
                     
-                    self.send_message(message, f"✅ <strong>Identified {len(actions)} action(s) for task:</strong> {step}. Executing sequentially...")
+                    self.send_message(message, f"✅ Identified {len(actions)} action(s) for task: {step}. Executing sequentially...")
                     
                     for action in actions:
                         print("this is the action", action)
                         if "conditions failed" in action.lower():
-                            self.send_message(message,f"⚠️ <strong>Condition check failed:</strong> {action}")
+                            self.send_message(message,f"⚠️ Condition check failed: {action}")
                             return "exited"
                         elif action.lower().startswith("display"):
                             _, message_text = action.split(":", 1)
-                            self.send_message(message,f"ℹ️ <strong>Extracted information:</strong> {message_text.strip()}")
+                            self.send_message(message,f"ℹ️ Extracted information: {message_text.strip()}")
                         else:
                             _, actionKey = action.split(":", 1)
                             actionKey = actionKey.strip()
-                            self.send_message(message,f"⌨️ <strong>Typing '{actionKey}' into Emulator.</strong>")
+                            self.send_message(message,f"⌨️ Typing '{actionKey}' into Emulator.")
                             screens = self.send_request(actionKey)
                 except (SyntaxError, ValueError) as e:
-                    self.send_message(message,f"❌ <strong>Error parsing actions:</strong> {e}. Raw agent response: {actionstr}")
+                    self.send_message(message,f"❌ Error parsing actions: {e}. Raw agent response: {actionstr}")
                     continue
         
         return "navigation completed"
@@ -127,12 +125,12 @@ class ZenovoBot(BaseBot):
             print("Warning: No channel ID available to send message")
     
     def compare_data(self, screens):
+        self.emulator_client.port = 5001
         sds_data = self.emulator_client.pull_data_from_sds()
         claim_data = screens
         comparison_prompt = load_prompts("comparison_prompt")
         comparison_prompt = comparison_prompt.format(sds_data=sds_data, claim_data=claim_data)
         response = self.llm.invoke(comparison_prompt).content
-        print("this is the response", response)
         return response
 
 bot = ZenovoBot()

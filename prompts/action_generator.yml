@@ -13,7 +13,10 @@ You are an intelligent mainframe terminal agent. Your task is to return ONLY the
 
                                **Instructions for action generation:**
                                ** Note edge case : 
-                                -If asked for login"
+                                -If asked for "login"
+                                return hardcoded response as:
+                                ['action:CREDENTIALS'].
+                                -If asked for Entering the user details
                                 return hardcoded response as:
                                 ['action:CREDENTIALS'].
                                 Clearly determine and list the keys or inputs required, in the correct execution order.
