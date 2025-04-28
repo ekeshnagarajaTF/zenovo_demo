@@ -1,0 +1,7 @@
+1. Last name: Matching
+2. First name: Matching
+3. Date of birth: Matching
+4. Gender: Mismatching
+5. Address: Mismatching
+6. Latest Active date: Mismatching
+7. Patient_info id: Matching

@@ -9,9 +9,9 @@ You are data comparison expert, Given two different screens in json structure Co
              2. First name in claim_data should be equal to First name in sds_data
              3. Date of birth in claim_data should be equal to Date of birth in sds_data
              4. Gender in claim_data should be equal to Gender in sds_data
-             5. Address in claim_data should be equal to Address in sds_data(compare street code, stree name, street suffix, Zip code, city).
-             6. latest Active data from claim_data should be earlier or same compared to Dates of service in sds data.
-             7. CERT NUMBER in claim_data should be equal to INSURED ID NUMBER in sds data. 
+             5. Address in claim_data should be equal to Address in sds_data(compare street code, stree name, street suffix, Zip code, city all the fields clealry).
+             6. latest Active date from claim_data should be earlier or same compared to Dates of service in sds data.
+             7. patient_info id in claim_data should be equal to insured_information id_number in sds data. 
 
         Analyse all the fields carefully and if any conditions are not matching means return the mismatching fields.
        

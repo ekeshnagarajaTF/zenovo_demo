@@ -3,8 +3,9 @@ import os
 class navigation_set :
 
     def get_navigationData(self):
+        
 
-        json_filename = "data.json"
+        json_filename = "./prompts/zenovo_bot/data.json"
         navigation_data = {}
         if os.path.exists(json_filename):
             with open(json_filename, "r") as json_file:

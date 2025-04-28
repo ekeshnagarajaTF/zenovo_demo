@@ -1,0 +1,24 @@
+Given the provided JSON data for "Sds Data" and "Claim Data," and the specific fields to compare, here are the results based on the comparison instructions:
+
+1. **Last name in claim_data should be equal to Last name in sds_data**:
+   - Result: Mismatching (sds_data does not provide last name information due to an error)
+
+2. **First name in claim_data should be equal to First name in sds_data**:
+   - Result: Mismatching (sds_data does not provide first name information due to an error)
+
+3. **Date of birth in claim_data should be equal to Date of birth in sds_data**:
+   - Result: Mismatching (sds_data does not provide date of birth information due to an error)
+
+4. **Gender in claim_data should be equal to Gender in sds_data**:
+   - Result: Mismatching (sds_data does not provide gender information due to an error)
+
+5. **Address in claim_data should be equal to Address in sds_data**:
+   - Result: Mismatching (sds_data does not provide address information due to an error)
+
+6. **Latest Active date from claim_data should be earlier or same compared to Dates of service in sds_data**:
+   - Result: Mismatching (sds_data does not provide dates of service information due to an error)
+
+7. **Patient_info id in claim_data should be equal to insured_information id_number in sds_data**:
+   - Result: Mismatching (sds_data does not provide insured_information id_number due to an error)
+
+**Summary**: All fields are mismatching due to the absence of corresponding data in the "Sds Data" because of an error in accessing the 'sds_screens_mocks' attribute.

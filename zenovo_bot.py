@@ -13,6 +13,9 @@ from langchain_community.chat_models import ChatOpenAI
 import compare
 from navigation_screen_set import navigation_set
 import ast
+import os
+from datetime import datetime
+
 load_dotenv()
 class ZenovoBot(BaseBot):
     
@@ -48,9 +51,9 @@ class ZenovoBot(BaseBot):
         navigation_name = "load_pdf_in_sds"
 
         reponse = self.start_navigation(navigation_name, message)
-        # self.emulator_client.port = "5003"
-        # navigation_name = "compare_claim_with_pdf"
-        # reponse = self.start_navigation(navigation_name, message)
+        self.emulator_client.port = "5003"
+        navigation_name = "compare_claim_with_pdf"
+        reponse = self.start_navigation(navigation_name, message)
         return reponse
      
     def send_request(self, key):
@@ -75,7 +78,7 @@ class ZenovoBot(BaseBot):
             title = navigation_info.get(key).get("title")
             self.send_message(message, f"⏳ Processing screen: '{title}' | 📝Task: {step}  |  ⚡ Conditions to be satisfied for processing screen: {condition}")
             if("compare"  in step.lower()):
-                response = self.compare_data(screens)
+                response = self.compare_data(screens, message)
                 self.send_message(message, f"✅ Comparison result: {response}")
             else:
                 actionstr = agent.analyze_process_step(condition, step, screens)
@@ -124,14 +127,37 @@ class ZenovoBot(BaseBot):
         else:
             print("Warning: No channel ID available to send message")
     
-    def compare_data(self, screens):
-        self.emulator_client.port = 5001
-        sds_data = self.emulator_client.pull_data_from_sds()
-        claim_data = screens
-        comparison_prompt = load_prompts("comparison_prompt")
-        comparison_prompt = comparison_prompt.format(sds_data=sds_data, claim_data=claim_data)
-        response = self.llm.invoke(comparison_prompt).content
-        return response
+    def compare_data(self, screens, message):
+            self.emulator_client.port = 5001
+            sds_data = self.emulator_client.pull_data_from_sds()
+            claim_data = screens
+            comparison_prompt = load_prompts("comparison_prompt")
+            comparison_prompt = comparison_prompt.format(sds_data=sds_data, claim_data=claim_data)
+            response = self.llm.invoke(comparison_prompt).content
+            self.save_comparison_result(response, message)
+            return response
+       
+
+    def save_comparison_result(self, result, message):
+        """
+        Save the comparison result to the downloads folder
+        """
+        print("Starting to save comparison result...")
+        
+        # Create downloads directory if it doesn't exist
+        downloads_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "downloads")
+        os.makedirs(downloads_dir, exist_ok=True)
+        
+        # Generate filename with timestamp to avoid overwriting
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = os.path.join(downloads_dir, f"comparison_results_{timestamp}.txt")
+        
+        # Save the result to file
+        with open(filename, "w") as f:
+            f.write(result)
+        self.send_message(message, f"Comparison results saved to: {filename}")
+        print(f"Comparison results saved to: {filename}")
+        return filename
 
 bot = ZenovoBot()
         
